@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API_BASE_URL = 'https://deploy-ecommerce-qgpi.vercel.app' || 'http://localhost:7654/api';
+export const API_BASE_URL = 'https://deploy-ecommerce-qgpi.vercel.app/api' || 'http://localhost:7654/api';
 
 // Create axios instance
 const api = axios.create({
