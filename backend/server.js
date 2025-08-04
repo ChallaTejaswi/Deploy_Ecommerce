@@ -235,9 +235,10 @@ Just speak naturally and I'll help you! 🎙️`,
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  origin: true, // Reflect the request origin
   credentials: true
 }));
+
 app.use(express.json());
 
 // Import routes
