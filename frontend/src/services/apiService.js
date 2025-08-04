@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:7654/api';
+const API_BASE_URL = 'https://deploy-ecommerce-qgpi.vercel.app/api'|| 'http://localhost:7654/api';
 
 class ApiService {
   constructor() {
