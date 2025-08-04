@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './AdminLogin.css';
-
+import { API_BASE_URL } from '../utils/api';
 const AdminLogin = () => {
   const [credentials, setCredentials] = useState({
     email: '',
@@ -27,7 +27,7 @@ const AdminLogin = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:7654/api/admin/login', credentials);
+      const response = await axios.post(`${API_BASE_URL}/admin/login`, credentials);
       if (response.data.success) {
         localStorage.setItem('admin_token', response.data.token);
         localStorage.setItem('admin_user', JSON.stringify(response.data.admin));

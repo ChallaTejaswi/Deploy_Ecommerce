@@ -6,6 +6,7 @@ import axios from 'axios';
 import VoiceToggle from './VoiceToggle';
 import ProductCard from './ProductCard';
 import './ChatWindow.css';
+import { API_BASE_URL } from '../utils/api';
 
 const ChatWindow = () => {
   const defaultWelcomeMessage = "👋 Hi! I'm your Meesho shopping assistant. I can help you track orders, find products, and get personalized recommendations. Try saying 'Show me dresses', 'Recommend products for me', or 'Track my order'!";
@@ -151,11 +152,11 @@ const ChatWindow = () => {
             return;
           }
           
-          console.log('Making request to:', `http://localhost:7654/api/recommendations/${userId}`);
+          console.log('Making request to:', `${API_BASE_URL}/recommendations/${userId}`);
           
           // Fetch recommendations from the recommendations API endpoint
           const recommendationsResponse = await axios.post(
-            `http://localhost:7654/api/recommendations/${userId}`,
+            `${API_BASE_URL}/recommendations/${userId}`,
             {}, // Empty body - backend can accept session context here if needed
             {
               headers: {
@@ -228,7 +229,7 @@ const ChatWindow = () => {
         headers['Authorization'] = `Bearer ${token}`;
       }
 
-      const response = await axios.post('http://localhost:7654/api/webhook', {
+      const response = await axios.post(`${API_BASE_URL}/webhook`, {
         queryResult: {
           queryText: messageText,
           languageCode: selectedLanguage // Always include selected language

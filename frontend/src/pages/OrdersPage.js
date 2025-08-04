@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 import './OrdersPage.css';
-
+import { API_BASE_URL } from '../utils/api';
 const OrdersPage = () => {
   const { isAuthenticated } = useAuth();
   const [orders, setOrders] = useState([]);
@@ -20,7 +20,7 @@ const OrdersPage = () => {
   const fetchOrders = async () => {
     try {
       const token = localStorage.getItem('meesho_token');
-      const response = await axios.get('http://localhost:7654/api/orders', {
+      const response = await axios.get(`${API_BASE_URL}/orders`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

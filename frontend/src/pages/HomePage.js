@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { useCart } from '../context/CartContext';
 import './HomePage.css';
-
+import { API_BASE_URL } from '../utils/api';
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:7654/api/products');
+        const response = await axios.get(`${API_BASE_URL}/products`);
         if (response.data.success) {
           setProducts(response.data.products);
         }

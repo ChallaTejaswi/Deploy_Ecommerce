@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CartPage.css';
-
+import { API_BASE_URL } from '../utils/api';
 const CartPage = () => {
   const { cartItems, updateQuantity, removeFromCart, clearCart, addToCart } = useCart();
   const { isAuthenticated, user } = useAuth();
@@ -35,7 +35,7 @@ const CartPage = () => {
       
       // Add each cart item to backend if not already there
       for (const item of cartItems) {
-        await axios.post('http://localhost:7654/api/cart/add', {
+        await axios.post(`${API_BASE_URL}/cart/add`, {
           productId: item.id,
           quantity: item.quantity,
           addedVia: 'manual', // Use valid enum value
@@ -63,7 +63,7 @@ const CartPage = () => {
       }
 
       console.log('🔄 Fetching ML cart data...');
-      const response = await axios.get('http://localhost:7654/api/cart', {
+      const response = await axios.get(`${API_BASE_URL}/cart`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -166,7 +166,7 @@ const CartPage = () => {
       };
 
       const token = localStorage.getItem('meesho_token') || 'dummy_token';
-      const response = await axios.post('http://localhost:7654/api/orders', orderData, {
+      const response = await axios.post(`${API_BASE_URL}/orders`, orderData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'

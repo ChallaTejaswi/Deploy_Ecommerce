@@ -3,8 +3,7 @@ import { useCart } from '../context/CartContext';
 import axios from 'axios';
 import './ProductsPage.css';
 
-// Define your API base URL here, similar to what we did in AuthContext
-const API_BASE_URL = 'http://localhost:7654/api'; // Adjust if your backend API path changes
+import { API_BASE_URL } from '../utils/api';
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './AdminDashboard.css';
-
+import { API_BASE_URL } from '../utils/api';
 const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
   const [analytics, setAnalytics] = useState({});
@@ -42,7 +42,7 @@ const AdminDashboard = () => {
   const fetchOrders = async () => {
     try {
       const token = localStorage.getItem('admin_token');
-      const response = await axios.get('http://localhost:7654/api/admin/orders', {
+      const response = await axios.get(`${API_BASE_URL}/admin/orders`, {
         headers: { Authorization: `Bearer ${token}` },
         params: filters
       });
@@ -63,7 +63,7 @@ const AdminDashboard = () => {
   const fetchAnalytics = async () => {
     try {
       const token = localStorage.getItem('admin_token');
-      const response = await axios.get('http://localhost:7654/api/admin/analytics', {
+      const response = await axios.get(`${API_BASE_URL}/admin/analytics`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -78,7 +78,7 @@ const AdminDashboard = () => {
   const handleStatusUpdate = async (orderId) => {
     try {
       const token = localStorage.getItem('admin_token');
-      await axios.put(`http://localhost:7654/api/admin/orders/${orderId}/status`, statusUpdate, {
+      await axios.put(`/api/admin/orders/${orderId}/status`, statusUpdate, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
