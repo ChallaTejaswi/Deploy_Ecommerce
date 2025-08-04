@@ -1,20 +1,27 @@
 const dialogflow = require('@google-cloud/dialogflow');
 const uuid = require('uuid');
-const path = require('path');
 
-// Path to your Dialogflow service account key
-const keyFilePath = path.resolve(__dirname, '../../config/dialogflow-service-account.json');
-const projectId = 'shoppingassistant-pstu';
+const projectId = process.env.DIALOGFLOW_PROJECT_ID;
 
 class DialogflowService {
   async detectIntent(userId, userInput, languageCode = 'en') {
     try {
       const sessionId = uuid.v4();
-      const sessionClient = new dialogflow.SessionsClient({ keyFilename: keyFilePath });
+
+      // Setup credentials from environment
+      const sessionClient = new dialogflow.SessionsClient({
+        credentials: {
+          client_email: process.env.DIALOGFLOW_CLIENT_EMAIL,
+          private_key: process.env.DIALOGFLOW_PRIVATE_KEY.replace(/\\n/g, '\n'),
+        }
+      });
+
       const sessionPath = sessionClient.projectAgentSessionPath(projectId, sessionId);
-      // Truncate userInput to avoid exceeding Dialogflow's 256 char limit
+
       let safeInput = userInput;
-      if (typeof safeInput === 'string' && safeInput.length > 200) safeInput = safeInput.slice(0, 197) + '...';
+      if (typeof safeInput === 'string' && safeInput.length > 200)
+        safeInput = safeInput.slice(0, 197) + '...';
+
       const request = {
         session: sessionPath,
         queryInput: {
@@ -24,8 +31,10 @@ class DialogflowService {
           },
         },
       };
+
       const responses = await sessionClient.detectIntent(request);
       const result = responses[0].queryResult;
+
       return {
         queryResult: result,
         flowDecision: {
@@ -39,6 +48,7 @@ class DialogflowService {
         fulfillmentText: result.fulfillmentText || '',
         languageCode: languageCode
       };
+
     } catch (error) {
       console.error('Dialogflow intent detection error:', error);
       return {
@@ -65,4 +75,3 @@ class DialogflowService {
 }
 
 module.exports = new DialogflowService();
-
